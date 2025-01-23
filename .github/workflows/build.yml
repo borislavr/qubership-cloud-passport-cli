@@ -31,7 +31,7 @@ on:
 
 jobs:
   publish:
-    uses: nookyo/workflow-hub/.github/workflows/python-build.yml@main
+    uses: netcraker/qubership-workflow-hub/.github/workflows/python-publish.yml@main
     with:
       version: ${{ inputs.version }}
       poetry_version_options: ${{ inputs.poetry_version_options }}

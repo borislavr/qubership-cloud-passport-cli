@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check if tag exists
-        if: ${{ inputs.version != "" }}
+        if: ${{ inputs.version != '' }}
         id: check_tag
         uses: netcracker/qubership-workflow-hub/actions/tag-checker@main
         with:
@@ -61,13 +61,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output result
-        if: ${{ inputs.version != "" }}
+        if: ${{ inputs.version != '' }}
         run: |
           echo "Tag exists: ${{ steps.check_tag.outputs.exists }}"
           echo "Tag name: ${{ steps.check_tag.outputs.tag_name }}"
 
       - name: Fail if tag exists
-        if: inputs.version != "" && steps.check_tag.outputs.exists == 'true'
+        if: inputs.version != '' && steps.check_tag.outputs.exists == 'true'
         run: |
           echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}" >> $GITHUB_STEP_SUMMARY
           echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}"

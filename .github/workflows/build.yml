@@ -104,7 +104,8 @@ jobs:
       - name: Get current version
         id: get_version
         run: |
-          echo CURRENT_VERSION=$(poetry version | cut -d' ' -f2) >> $GITHUB_OUTPUT
+          echo CURRENT_VERSION=$(grep -e '^version =' pyproject.toml | cut -d'=' -f2)
+          # echo CURRENT_VERSION=$(poetry version | cut -d' ' -f2) >> $GITHUB_OUTPUT
 
       - name: Output current version
         run: |

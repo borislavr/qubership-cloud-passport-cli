@@ -72,25 +72,19 @@ jobs:
           echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}" >> $GITHUB_STEP_SUMMARY
           echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}"
           exit 1
+
   publish:
     needs: [check-tag]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Stub
-        run: |
-          echo "Stub step"
-#  publish:
-#    needs: [check-tag]
-#    uses: netcraker/qubership-workflow-hub/.github/workflows/python-publish.yml@main
-#    with:
-#      version: ${{ inputs.version }}
-#      poetry_version_options: ${{ inputs.poetry_version_options }}
-#      python-version: ${{ inputs.python-version }}
-#      poetry_build_params: ${{ inputs.poetry_build_params }}
-#      pytest_run: ${{ inputs.pytest_run }}
-#      pytest_params: ${{ inputs.pytest_params }}
-#    secrets:
-#      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+    uses: netcraker/qubership-workflow-hub/.github/workflows/python-publish.yml@main
+    with:
+      version: ${{ inputs.version }}
+      poetry_version_options: ${{ inputs.poetry_version_options }}
+      python-version: ${{ inputs.python-version }}
+      poetry_build_params: ${{ inputs.poetry_build_params }}
+      pytest_run: ${{ inputs.pytest_run }}
+      pytest_params: ${{ inputs.pytest_params }}
+    secrets:
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
   get-current-version:
     needs: [publish]
@@ -111,9 +105,9 @@ jobs:
         run: |
           echo "Released version: ${{ steps.get_version.outputs.CURRENT_VERSION }}" >> $GITHUB_STEP_SUMMARY
 
-#  github-release:
-#    needs: [get-current-version]
-#    uses: Netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@main
-#    with:
-#      version: ${{ needs.get-current-version.outputs.current_version }}
-#      publish: false
+  github-release:
+    needs: [get-current-version]
+    uses: Netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@main
+    with:
+      version: ${{ needs.get-current-version.outputs.current_version }}
+      publish: false

@@ -64,13 +64,13 @@ jobs:
         if: ${{ inputs.version != '' }}
         run: |
           echo "Tag exists: ${{ steps.check_tag.outputs.exists }}"
-          echo "Tag name: ${{ steps.check_tag.outputs.tag_name }}"
+          echo "Tag name: v${{ github.event.inputs.version }}"
 
       - name: Fail if tag exists
         if: inputs.version != '' && steps.check_tag.outputs.exists == 'true'
         run: |
-          echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "Tag already exists: ${{ steps.check_tag.outputs.tag_name }}"
+          echo "Tag already exists: v${{ github.event.inputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "Tag already exists: v${{ github.event.inputs.version }}"
           exit 1
 
   publish:
